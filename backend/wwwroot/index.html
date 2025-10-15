@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏠 IoT Motion Detection System - Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏠</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <h1>🏠 IoT Motion Detection System</h1>
+                    <p>Real-time ESP32 PIR Sensor Monitoring Dashboard</p>
+                </div>
+                <div class="status-section">
+                    <div class="connection-status" id="connectionStatus">
+                        <span class="status-indicator offline" id="statusIndicator"></span>
+                        <span id="statusText">Disconnected</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-content">
+                    <h3>Total Events</h3>
+                    <div class="stat-value" id="totalEvents">0</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🕒</div>
+                <div class="stat-content">
+                    <h3>Last 24 Hours</h3>
+                    <div class="stat-value" id="eventsLast24h">0</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-content">
+                    <h3>Last Hour</h3>
+                    <div class="stat-value" id="eventsLastHour">0</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📡</div>
+                <div class="stat-content">
+                    <h3>Active Sensors</h3>
+                    <div class="stat-value" id="activeSensors">0</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-content">
+                    <h3>Connected Clients</h3>
+                    <div class="stat-value" id="connectedClients">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <div class="card">
+                <div class="card-header">
+                    <h2>🎛️ Control Panel</h2>
+                </div>
+                <div class="card-content">
+                    <div class="button-group">
+                        <button id="connectBtn" class="btn btn-primary">Connect to WebSocket</button>
+                        <button id="refreshBtn" class="btn btn-secondary">Refresh Stats</button>
+                        <button id="clearLogsBtn" class="btn btn-warning">Clear Logs</button>
+                        <button id="testMotionBtn" class="btn btn-success">Test Motion Event</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Motion Alerts -->
+        <div class="alerts-section">
+            <div class="card">
+                <div class="card-header">
+                    <h2>🚨 Live Motion Alerts</h2>
+                    <div class="alert-counter">
+                        <span id="alertCount">0</span> alerts
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div id="motionAlerts" class="alerts-container">
+                        <div class="no-alerts">
+                            <div class="no-alerts-icon">🔍</div>
+                            <p>No motion detected yet. Waiting for sensor activity...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Log -->
+        <div class="log-section">
+            <div class="card">
+                <div class="card-header">
+                    <h2>📝 Activity Log</h2>
+                    <div class="log-controls">
+                        <select id="logFilter" class="select-filter">
+                            <option value="all">All Events</option>
+                            <option value="motion">Motion Only</option>
+                            <option value="error">Errors Only</option>
+                            <option value="info">Info Only</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div id="activityLog" class="log-container">
+                        <div class="log-entry info">
+                            <span class="log-time">${new Date().toLocaleString()}</span>
+                            <span class="log-message">Dashboard initialized. Ready to monitor motion events.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API Documentation -->
+        <div class="api-section">
+            <div class="card">
+                <div class="card-header">
+                    <h2>📚 API Endpoints</h2>
+                </div>
+                <div class="card-content">
+                    <div class="api-grid">
+                        <div class="api-endpoint">
+                            <div class="method post">POST</div>
+                            <div class="endpoint">/api/motion-events</div>
+                            <div class="description">Submit new motion detection event</div>
+                        </div>
+                        <div class="api-endpoint">
+                            <div class="method get">GET</div>
+                            <div class="endpoint">/api/motion-events</div>
+                            <div class="description">Retrieve motion event history</div>
+                        </div>
+                        <div class="api-endpoint">
+                            <div class="method get">GET</div>
+                            <div class="endpoint">/api/dashboard/stats</div>
+                            <div class="description">Get dashboard statistics</div>
+                        </div>
+                        <div class="api-endpoint">
+                            <div class="method ws">WS</div>
+                            <div class="endpoint">/ws</div>
+                            <div class="description">Real-time WebSocket connection</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 IoT Motion Detection System | Built with ASP.NET Core & WebSockets</p>
+        </footer>
+    </div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

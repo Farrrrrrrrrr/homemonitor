@@ -1,0 +1,79 @@
+# Combined project (we don't want this in the repo)
+/homemonitor-combined
+
+# Build results
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+[Bb]uild/
+[Oo]ut/
+dist/
+
+# SQLite database files (runtime data)
+*.db
+*.db-shm
+*.db-wal
+motion.db*
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio files
+.vs/
+*.vscode/
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# Logs
+*.log
+logs/
+
+# Runtime files
+*.tmp
+*.temp
+
+# Package files
+*.nupkg
+*.snupkg
+
+# Backup files
+*.bak
+*.backup
+
+# IDE workspace files
+*.swp
+*.swo
+
+# Environment variables (if you add them later)
+.env
+.env.local
+.env.production
+
+# Sensitive configuration (add specific files as needed)
+appsettings.Production.json
+appsettings.Secrets.json

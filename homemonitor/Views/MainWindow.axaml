@@ -1,0 +1,269 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:homemonitor.ViewModel"
+        xmlns:models="using:homemonitor.Models"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="650"
+        x:Class="homemonitor.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Title="homemonitor"
+        Width="900" Height="650"
+        MinWidth="700" MinHeight="500">
+
+    <Design.DataContext>
+        <vm:MainViewModel/>
+    </Design.DataContext>
+
+    <!-- Main Layout -->
+    <Grid Margin="20" RowDefinitions="Auto,Auto,Auto,Auto,*">
+
+        <!-- Header -->
+        <Border Grid.Row="0" 
+                Background="#1976D2"
+                CornerRadius="8"
+                Padding="20,15"
+                Margin="0,0,0,15">
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock Text="🏠 IoT Motion Detection System" 
+                              FontSize="20" 
+                              FontWeight="Bold"
+                              Foreground="#000000"/>
+                    <TextBlock Text="Real-time ESP32 PIR Sensor Monitoring" 
+                              FontSize="12" 
+                              Foreground="#ffffffff"
+                              Margin="0,4,0,0"/>
+                </StackPanel>
+                
+                <StackPanel Grid.Column="1" 
+                           Orientation="Horizontal" 
+                           Spacing="15"
+                           VerticalAlignment="Center">
+                    <TextBlock Text="{Binding StatusText}" 
+                              Foreground="{Binding StatusColor}"
+                              FontWeight="Bold"
+                              FontSize="14"
+                              VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Connection Settings Panel -->
+        <Border Grid.Row="1" 
+                BorderBrush="#0029e1ff" 
+                BorderThickness="1" 
+                CornerRadius="8"
+                Padding="15"
+                Background="#0029e1ff"
+                Margin="0,0,0,15">
+            <StackPanel Spacing="10">
+                <TextBlock Text="⚙️ Connection Settings" 
+                          FontSize="14" 
+                          FontWeight="SemiBold"
+                          Foreground="#333333"/>
+                
+                <Grid ColumnDefinitions="*,Auto,Auto">
+                    <TextBox Grid.Column="0"
+                            Text="{Binding WebSocketUrl}"
+                            Watermark="ws://localhost:5000/ws"
+                            FontFamily="Consolas,monospace"
+                            Margin="0,0,10,0"/>
+                    
+                    <Button Grid.Column="1"
+                           Command="{Binding ConnectCommand}"
+                           IsEnabled="{Binding !IsConnected}"
+                           Content="🔗 Connect"
+                           Background="#4CAF50"
+                           Foreground="White"
+                           Padding="20,8"
+                           FontWeight="SemiBold"
+                           Margin="0,0,10,0"/>
+                    
+                    <Button Grid.Column="2"
+                           Command="{Binding DisconnectCommand}"
+                           IsEnabled="{Binding IsConnected}"
+                           Content="🔌 Disconnect"
+                           Background="#F44336"
+                           Foreground="White"
+                           Padding="20,8"
+                           FontWeight="SemiBold"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- Statistics Dashboard -->
+        <Border Grid.Row="2" 
+                BorderBrush="#0029e1ff" 
+                BorderThickness="1" 
+                CornerRadius="8"
+                Padding="15"
+                Background="White"
+                Margin="0,0,0,15">
+            <Grid ColumnDefinitions="*,*,*,*">
+                <Border Grid.Column="0" 
+                       Background="#0029e1ff"
+                       CornerRadius="6"
+                       Padding="15,10"
+                       Margin="0,0,5,0">
+                    <StackPanel>
+                        <TextBlock Text="📨 Session Messages" 
+                                  FontSize="11"
+                                  Foreground="#1565C0"
+                                  FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding TotalMessages}" 
+                                  FontSize="24"
+                                  FontWeight="Bold"
+                                  Foreground="#0D47A1"
+                                  Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="1" 
+                       Background="#0029e1ff"
+                       CornerRadius="6"
+                       Padding="15,10"
+                       Margin="5,0">
+                    <StackPanel>
+                        <TextBlock Text="🚨 Motion Detected" 
+                                  FontSize="11"
+                                  Foreground="#C62828"
+                                  FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding MotionEvents}" 
+                                  FontSize="24"
+                                  FontWeight="Bold"
+                                  Foreground="#B71C1C"
+                                  Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="2" 
+                       Background="#0029e1ff"
+                       CornerRadius="6"
+                       Padding="15,10"
+                       Margin="5,0,5,0">
+                    <StackPanel>
+                        <TextBlock Text="📡 Active Sensors" 
+                                  FontSize="11"
+                                  Foreground="#2E7D32"
+                                  FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding ActiveSensors}" 
+                                  FontSize="24"
+                                  FontWeight="Bold"
+                                  Foreground="#1B5E20"
+                                  Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="3" 
+                       Background="#FFF3E0"
+                       CornerRadius="6"
+                       Padding="15,10"
+                       Margin="5,0,0,0">
+                    <StackPanel>
+                        <TextBlock Text="👥 Connected Clients" 
+                                  FontSize="11"
+                                  Foreground="#E65100"
+                                  FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding ConnectedClients}" 
+                                  FontSize="24"
+                                  FontWeight="Bold"
+                                  Foreground="#BF360C"
+                                  Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Event Feed Header -->
+        <Grid Grid.Row="3" 
+              Margin="0,0,0,10"
+              ColumnDefinitions="*,Auto,Auto">
+            <TextBlock Grid.Column="0"
+                      Text="📋 Real-Time Event Feed" 
+                      FontSize="14" 
+                      FontWeight="SemiBold"
+                      Foreground="#333333"
+                      VerticalAlignment="Center"/>
+            
+            <Button Grid.Column="1"
+                   Command="{Binding RefreshStatsCommand}"
+                   Content="🔄 Refresh Stats"
+                   Background="#2196F3"
+                   Foreground="White"
+                   Padding="15,6"
+                   FontSize="12"
+                   Margin="0,0,10,0"/>
+            
+            <Button Grid.Column="2"
+                   Command="{Binding ClearLogsCommand}"
+                   Content="🗑️ Clear Logs"
+                   Background="#FF9800"
+                   Foreground="White"
+                   Padding="15,6"
+                   FontSize="12"/>
+        </Grid>
+
+        <!-- Event Feed List -->
+        <Border Grid.Row="4"
+                BorderBrush="#0029e1ff" 
+                BorderThickness="1" 
+                CornerRadius="8"
+                Background="White"
+                ClipToBounds="True">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding LogEntries}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="models:LogEntry">
+                            <Border Padding="12,10"
+                                   Margin="4,2"
+                                   CornerRadius="4"
+                                   Background="{Binding BackgroundColor}">
+                                
+                                <Grid ColumnDefinitions="Auto,Auto,*">
+                                    <TextBlock Grid.Column="0"
+                                             Text="{Binding Icon}"
+                                             FontSize="16"
+                                             Margin="0,0,12,0"
+                                             VerticalAlignment="Center"/>
+                                    
+                                    <TextBlock Grid.Column="1"
+                                             Text="{Binding FormattedTime}"
+                                             FontFamily="Consolas,Courier New,monospace"
+                                             FontSize="12"
+                                             Foreground="#666666"
+                                             Margin="0,0,12,0"
+                                             VerticalAlignment="Center"
+                                             MinWidth="65"/>
+                                    
+                                    <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Message}"
+                                                 TextWrapping="Wrap"
+                                                 FontSize="13"
+                                                 Foreground="{Binding TextColor}"/>
+                                        
+                                        <StackPanel Orientation="Horizontal" 
+                                                   Spacing="10"
+                                                   Margin="0,4,0,0"
+                                                   IsVisible="{Binding IsMotionEvent}">
+                                            <TextBlock Text="{Binding SensorId, StringFormat='Sensor: {0}'}"
+                                                     FontSize="11"
+                                                     Foreground="#666666"
+                                                     IsVisible="{Binding SensorId, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                                            <TextBlock Text="{Binding Location, StringFormat='Location: {0}'}"
+                                                     FontSize="11"
+                                                     Foreground="#666666"
+                                                     IsVisible="{Binding Location, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+
+    </Grid>
+
+</Window>
